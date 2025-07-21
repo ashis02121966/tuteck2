@@ -677,12 +677,24 @@ export const enumeratorDashboardApi = {
         availableTests: [
           {
             surveyId: '1',
-            title: 'Digital Literacy Assessment',
-            description: 'Comprehensive assessment of digital skills and computer literacy',
+            title: 'Tourism Industry Knowledge Assessment',
+            description: 'Comprehensive assessment covering tourism fundamentals, hospitality management, and sustainable tourism practices',
             targetDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-            duration: 35,
-            totalQuestions: 30,
-            passingScore: 70,
+            duration: 90,
+            totalQuestions: 50,
+            passingScore: 75,
+            attemptsLeft: 3,
+            maxAttempts: 3,
+            isEligible: true
+          },
+          {
+            surveyId: '2',
+            title: 'Travel Industry Professional Certification',
+            description: 'Comprehensive assessment covering travel planning, transportation logistics, and travel experience management',
+            targetDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+            duration: 90,
+            totalQuestions: 50,
+            passingScore: 75,
             attemptsLeft: 3,
             maxAttempts: 3,
             isEligible: true

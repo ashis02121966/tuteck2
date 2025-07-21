@@ -19,6 +19,7 @@ import { EnumeratorStatusPage } from './pages/EnumeratorStatus';
 import { Certificates } from './pages/Certificates';
 import { Settings } from './pages/Settings';
 import { AvailableTests } from './pages/AvailableTests';
+import { SurveySetup } from './pages/SurveySetup';
 import { MyResults } from './pages/MyResults';
 import { MyCertificates } from './pages/MyCertificates';
 import { TestSchedule } from './pages/TestSchedule';
@@ -94,6 +95,11 @@ function AppRoutes() {
       <Route path="/questions" element={
         <ProtectedRoute>
           <Questions />
+        </ProtectedRoute>
+      } />
+      <Route path="/survey-setup" element={
+        <ProtectedRoute>
+          <SurveySetup />
         </ProtectedRoute>
       } />
       <Route path="/settings" element={

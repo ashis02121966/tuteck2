@@ -14,6 +14,7 @@ const menuItems = {
     { to: '/users', icon: Users, label: 'User Management' },
     { to: '/roles', icon: Shield, label: 'Role Management' },
     { to: '/surveys', icon: FileText, label: 'Survey Management' },
+    { to: '/survey-setup', icon: BookOpen, label: 'Survey Setup' },
     { to: '/questions', icon: Book, label: 'Question Bank' },
     { to: '/results', icon: BarChart3, label: 'Results & Analytics' },
     { to: '/enumerator-status', icon: Eye, label: 'Enumerator Status' },
