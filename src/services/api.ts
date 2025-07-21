@@ -1,16 +1,14 @@
-// Mock API service for demonstration
-// In a real application, this would connect to your backend API
-
 import { 
-  User, Role, Permission, Survey, Question, TestSession, TestResult, 
+  User, Role, Permission, Survey, Section, Question, TestSession, TestResult, 
   Certificate, Dashboard, ZODashboard, RODashboard, SupervisorDashboard, 
   EnumeratorDashboard, SystemSettings, AnalyticsData, AnalyticsFilter,
-  ApiResponse, FileUploadResult, Activity, PerformanceData, MonthlyTrend,
-  ZonePerformance, DistrictPerformance, SupervisorPerformance, TeamPerformance,
-  EnumeratorStatus, AvailableTest, CompletedTest, UpcomingTest, Section
+  ApiResponse, FileUploadResult, Activity, EnumeratorStatus
 } from '../types';
 
-// Mock data for demonstration
+// Mock API responses for development
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Mock data
 const mockUsers: User[] = [
   {
     id: '1',
@@ -32,8 +30,8 @@ const mockUsers: User[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     isActive: true,
-    zone: 'Zone A',
-    jurisdiction: 'Zone A'
+    zone: 'North Zone',
+    jurisdiction: 'North Zone'
   },
   {
     id: '3',
@@ -44,9 +42,9 @@ const mockUsers: User[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     isActive: true,
-    zone: 'Zone A',
-    region: 'Region 1',
-    jurisdiction: 'Region 1'
+    zone: 'North Zone',
+    region: 'Delhi Region',
+    jurisdiction: 'Delhi Region'
   },
   {
     id: '4',
@@ -57,10 +55,10 @@ const mockUsers: User[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     isActive: true,
-    zone: 'Zone A',
-    region: 'Region 1',
-    district: 'District 1',
-    jurisdiction: 'District 1'
+    zone: 'North Zone',
+    region: 'Delhi Region',
+    district: 'Central Delhi',
+    jurisdiction: 'Central Delhi District'
   },
   {
     id: '5',
@@ -71,445 +69,38 @@ const mockUsers: User[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     isActive: true,
-    zone: 'Zone A',
-    region: 'Region 1',
-    district: 'District 1',
-    jurisdiction: 'District 1'
+    zone: 'North Zone',
+    region: 'Delhi Region',
+    district: 'Central Delhi',
+    jurisdiction: 'Block A, Central Delhi'
   }
 ];
 
 const mockSurveys: Survey[] = [
   {
     id: '1',
-    title: 'Digital Literacy Assessment 2024',
-    description: 'Comprehensive assessment of digital literacy skills for field staff',
-    targetDate: new Date('2024-12-31'),
+    title: 'Digital Literacy Assessment',
+    description: 'Comprehensive assessment of digital skills and computer literacy',
+    targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     duration: 35,
     totalQuestions: 30,
     passingScore: 70,
     maxAttempts: 3,
     isActive: true,
-    sections: [
-      {
-        id: 's1',
-        surveyId: '1',
-        title: 'Basic Computer Skills',
-        description: 'Fundamental computer operation skills',
-        questionsCount: 10,
-        order: 1,
-        questions: []
-      },
-      {
-        id: 's2',
-        surveyId: '1',
-        title: 'Internet and Communication',
-        description: 'Internet usage and digital communication',
-        questionsCount: 10,
-        order: 2,
-        questions: []
-      },
-      {
-        id: 's3',
-        surveyId: '1',
-        title: 'Data Security',
-        description: 'Basic data security and privacy concepts',
-        questionsCount: 10,
-        order: 3,
-        questions: []
-      }
-    ],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    createdBy: '1'
-  },
-  {
-    id: '2',
-    title: 'Data Collection Training',
-    description: 'Training assessment for data collection procedures',
-    targetDate: new Date('2024-11-30'),
-    duration: 25,
-    totalQuestions: 20,
-    passingScore: 75,
-    maxAttempts: 2,
-    isActive: true,
-    sections: [
-      {
-        id: 's4',
-        surveyId: '2',
-        title: 'Data Collection Methods',
-        description: 'Various methods of data collection',
-        questionsCount: 10,
-        order: 1,
-        questions: []
-      },
-      {
-        id: 's5',
-        surveyId: '2',
-        title: 'Quality Assurance',
-        description: 'Quality control in data collection',
-        questionsCount: 10,
-        order: 2,
-        questions: []
-      }
-    ],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    createdBy: '1'
-  },
-  {
-    id: '3',
-    title: 'Travel',
-    description: 'Comprehensive survey on travel patterns and transportation usage',
-    targetDate: new Date('2024-12-15'),
-    duration: 40,
-    totalQuestions: 30,
-    passingScore: 70,
-    maxAttempts: 3,
-    isActive: true,
-    sections: [
-      {
-        id: 's6',
-        surveyId: '3',
-        title: 'Data Collection',
-        description: 'Methods and techniques for collecting travel data',
-        questionsCount: 10,
-        order: 1,
-        questions: []
-      },
-      {
-        id: 's7',
-        surveyId: '3',
-        title: 'Data Scrutiny',
-        description: 'Analysis and validation of travel data',
-        questionsCount: 10,
-        order: 2,
-        questions: []
-      },
-      {
-        id: 's8',
-        surveyId: '3',
-        title: 'Overall System Usage',
-        description: 'System utilization and operational procedures',
-        questionsCount: 10,
-        order: 3,
-        questions: []
-      }
-    ],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    createdBy: '1'
-  },
-  {
-    id: '4',
-    title: 'Tourism',
-    description: 'Assessment of tourism industry knowledge and data management',
-    targetDate: new Date('2024-12-20'),
-    duration: 45,
-    totalQuestions: 30,
-    passingScore: 75,
-    maxAttempts: 3,
-    isActive: true,
-    sections: [
-      {
-        id: 's9',
-        surveyId: '4',
-        title: 'Data Collection',
-        description: 'Tourism data collection methodologies',
-        questionsCount: 10,
-        order: 1,
-        questions: []
-      },
-      {
-        id: 's10',
-        surveyId: '4',
-        title: 'Data Scrutiny',
-        description: 'Tourism data analysis and verification',
-        questionsCount: 10,
-        order: 2,
-        questions: []
-      },
-      {
-        id: 's11',
-        surveyId: '4',
-        title: 'Overall System Usage',
-        description: 'Tourism system management and operations',
-        questionsCount: 10,
-        order: 3,
-        questions: []
-      }
-    ],
+    sections: [],
     createdAt: new Date(),
     updatedAt: new Date(),
     createdBy: '1'
   }
 ];
 
-const mockQuestions: Question[] = [
-  {
-    id: 'q1',
-    sectionId: 's1',
-    text: 'What is the primary function of an operating system?',
-    type: 'single_choice',
-    complexity: 'easy',
-    options: [
-      { id: 'o1', text: 'To manage hardware and software resources', isCorrect: true },
-      { id: 'o2', text: 'To create documents', isCorrect: false },
-      { id: 'o3', text: 'To browse the internet', isCorrect: false },
-      { id: 'o4', text: 'To play games', isCorrect: false }
-    ],
-    correctAnswers: ['o1'],
-    explanation: 'An operating system manages all hardware and software resources of a computer.',
-    points: 1,
-    order: 1,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q2',
-    sectionId: 's1',
-    text: 'Which of the following are input devices? (Select all that apply)',
-    type: 'multiple_choice',
-    complexity: 'medium',
-    options: [
-      { id: 'o5', text: 'Keyboard', isCorrect: true },
-      { id: 'o6', text: 'Mouse', isCorrect: true },
-      { id: 'o7', text: 'Monitor', isCorrect: false },
-      { id: 'o8', text: 'Microphone', isCorrect: true }
-    ],
-    correctAnswers: ['o5', 'o6', 'o8'],
-    explanation: 'Input devices allow users to provide data to the computer. Monitor is an output device.',
-    points: 2,
-    order: 2,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  // Travel Survey Questions
-  {
-    id: 'q_travel_1',
-    sectionId: 's6',
-    text: 'What is the most effective method for collecting travel pattern data?',
-    type: 'single_choice',
-    complexity: 'medium',
-    options: [
-      { id: 'o_travel_1', text: 'Household surveys', isCorrect: true },
-      { id: 'o_travel_2', text: 'Traffic counting only', isCorrect: false },
-      { id: 'o_travel_3', text: 'GPS tracking only', isCorrect: false },
-      { id: 'o_travel_4', text: 'Social media analysis', isCorrect: false }
-    ],
-    correctAnswers: ['o_travel_1'],
-    explanation: 'Household surveys provide comprehensive data on travel patterns, purposes, and demographics.',
-    points: 2,
-    order: 1,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_travel_2',
-    sectionId: 's6',
-    text: 'Which data collection tools are essential for travel surveys? (Select all that apply)',
-    type: 'multiple_choice',
-    complexity: 'easy',
-    options: [
-      { id: 'o_travel_5', text: 'Questionnaires', isCorrect: true },
-      { id: 'o_travel_6', text: 'GPS devices', isCorrect: true },
-      { id: 'o_travel_7', text: 'Video cameras', isCorrect: false },
-      { id: 'o_travel_8', text: 'Mobile apps', isCorrect: true }
-    ],
-    correctAnswers: ['o_travel_5', 'o_travel_6', 'o_travel_8'],
-    explanation: 'Questionnaires, GPS devices, and mobile apps are key tools for collecting accurate travel data.',
-    points: 2,
-    order: 2,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_travel_3',
-    sectionId: 's7',
-    text: 'What is the primary purpose of data scrutiny in travel surveys?',
-    type: 'single_choice',
-    complexity: 'medium',
-    options: [
-      { id: 'o_travel_9', text: 'To ensure data quality and accuracy', isCorrect: true },
-      { id: 'o_travel_10', text: 'To reduce data volume', isCorrect: false },
-      { id: 'o_travel_11', text: 'To speed up processing', isCorrect: false },
-      { id: 'o_travel_12', text: 'To eliminate respondents', isCorrect: false }
-    ],
-    correctAnswers: ['o_travel_9'],
-    explanation: 'Data scrutiny ensures the collected travel data is accurate, complete, and reliable for analysis.',
-    points: 2,
-    order: 3,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_travel_4',
-    sectionId: 's7',
-    text: 'Which validation checks should be performed on travel data? (Select all that apply)',
-    type: 'multiple_choice',
-    complexity: 'hard',
-    options: [
-      { id: 'o_travel_13', text: 'Distance consistency checks', isCorrect: true },
-      { id: 'o_travel_14', text: 'Time sequence validation', isCorrect: true },
-      { id: 'o_travel_15', text: 'Mode choice logic', isCorrect: true },
-      { id: 'o_travel_16', text: 'Respondent age only', isCorrect: false }
-    ],
-    correctAnswers: ['o_travel_13', 'o_travel_14', 'o_travel_15'],
-    explanation: 'Comprehensive validation includes distance, time, and mode choice consistency checks.',
-    points: 3,
-    order: 4,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_travel_5',
-    sectionId: 's8',
-    text: 'What is the key benefit of integrated travel survey systems?',
-    type: 'single_choice',
-    complexity: 'medium',
-    options: [
-      { id: 'o_travel_17', text: 'Streamlined data flow and reduced errors', isCorrect: true },
-      { id: 'o_travel_18', text: 'Lower cost only', isCorrect: false },
-      { id: 'o_travel_19', text: 'Faster data entry', isCorrect: false },
-      { id: 'o_travel_20', text: 'Smaller file sizes', isCorrect: false }
-    ],
-    correctAnswers: ['o_travel_17'],
-    explanation: 'Integrated systems provide seamless data flow, reduce manual errors, and improve overall efficiency.',
-    points: 2,
-    order: 5,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  // Tourism Survey Questions
-  {
-    id: 'q_tourism_1',
-    sectionId: 's9',
-    text: 'What is the most comprehensive method for collecting tourism data?',
-    type: 'single_choice',
-    complexity: 'medium',
-    options: [
-      { id: 'o_tourism_1', text: 'Visitor exit surveys', isCorrect: true },
-      { id: 'o_tourism_2', text: 'Hotel registration only', isCorrect: false },
-      { id: 'o_tourism_3', text: 'Airport counting', isCorrect: false },
-      { id: 'o_tourism_4', text: 'Online reviews analysis', isCorrect: false }
-    ],
-    correctAnswers: ['o_tourism_1'],
-    explanation: 'Visitor exit surveys capture comprehensive information about tourist experiences, spending, and satisfaction.',
-    points: 2,
-    order: 1,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_tourism_2',
-    sectionId: 's9',
-    text: 'Which data sources are essential for tourism statistics? (Select all that apply)',
-    type: 'multiple_choice',
-    complexity: 'easy',
-    options: [
-      { id: 'o_tourism_5', text: 'Accommodation establishments', isCorrect: true },
-      { id: 'o_tourism_6', text: 'Border control records', isCorrect: true },
-      { id: 'o_tourism_7', text: 'Weather reports', isCorrect: false },
-      { id: 'o_tourism_8', text: 'Tourist surveys', isCorrect: true }
-    ],
-    correctAnswers: ['o_tourism_5', 'o_tourism_6', 'o_tourism_8'],
-    explanation: 'Accommodation data, border records, and tourist surveys provide comprehensive tourism statistics.',
-    points: 2,
-    order: 2,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_tourism_3',
-    sectionId: 's10',
-    text: 'What is the primary goal of tourism data scrutiny?',
-    type: 'single_choice',
-    complexity: 'medium',
-    options: [
-      { id: 'o_tourism_9', text: 'To ensure data reliability for policy decisions', isCorrect: true },
-      { id: 'o_tourism_10', text: 'To reduce survey costs', isCorrect: false },
-      { id: 'o_tourism_11', text: 'To eliminate tourists', isCorrect: false },
-      { id: 'o_tourism_12', text: 'To speed up data entry', isCorrect: false }
-    ],
-    correctAnswers: ['o_tourism_9'],
-    explanation: 'Data scrutiny ensures tourism statistics are reliable and accurate for informed policy making.',
-    points: 2,
-    order: 3,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_tourism_4',
-    sectionId: 's10',
-    text: 'Which validation procedures are critical for tourism data? (Select all that apply)',
-    type: 'multiple_choice',
-    complexity: 'hard',
-    options: [
-      { id: 'o_tourism_13', text: 'Expenditure consistency checks', isCorrect: true },
-      { id: 'o_tourism_14', text: 'Duration of stay validation', isCorrect: true },
-      { id: 'o_tourism_15', text: 'Purpose of visit verification', isCorrect: true },
-      { id: 'o_tourism_16', text: 'Tourist nationality only', isCorrect: false }
-    ],
-    correctAnswers: ['o_tourism_13', 'o_tourism_14', 'o_tourism_15'],
-    explanation: 'Comprehensive validation includes expenditure, duration, and purpose consistency checks.',
-    points: 3,
-    order: 4,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_tourism_5',
-    sectionId: 's11',
-    text: 'What is the main advantage of automated tourism data systems?',
-    type: 'single_choice',
-    complexity: 'medium',
-    options: [
-      { id: 'o_tourism_17', text: 'Real-time data processing and reporting', isCorrect: true },
-      { id: 'o_tourism_18', text: 'Reduced hardware costs', isCorrect: false },
-      { id: 'o_tourism_19', text: 'Smaller databases', isCorrect: false },
-      { id: 'o_tourism_20', text: 'Less staff training', isCorrect: false }
-    ],
-    correctAnswers: ['o_tourism_17'],
-    explanation: 'Automated systems enable real-time processing, faster reporting, and improved data accuracy.',
-    points: 2,
-    order: 5,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  },
-  {
-    id: 'q_tourism_6',
-    sectionId: 's11',
-    text: 'Which system features are essential for tourism data management? (Select all that apply)',
-    type: 'multiple_choice',
-    complexity: 'medium',
-    options: [
-      { id: 'o_tourism_21', text: 'Data backup and recovery', isCorrect: true },
-      { id: 'o_tourism_22', text: 'User access controls', isCorrect: true },
-      { id: 'o_tourism_23', text: 'Automated reporting', isCorrect: true },
-      { id: 'o_tourism_24', text: 'Gaming features', isCorrect: false }
-    ],
-    correctAnswers: ['o_tourism_21', 'o_tourism_22', 'o_tourism_23'],
-    explanation: 'Essential features include data security, access controls, and automated reporting capabilities.',
-    points: 2,
-    order: 6,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }
-];
-
-// Simulate API delay
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-// Authentication API
+// Auth API
 export const authApi = {
-  async login(email: string, password: string): Promise<ApiResponse<{ user: User; token: string }>> {
-    console.log('API: Login attempt for:', email);
-    await delay(500); // Reduced delay for better UX
+  login: async (email: string, password: string): Promise<ApiResponse<{ user: User; token: string }>> => {
+    await delay(1000);
     
     const user = mockUsers.find(u => u.email === email);
-    console.log('API: Found user:', user);
-    
     if (user && password === 'password123') {
-      console.log('API: Login successful');
       return {
         success: true,
         data: {
@@ -520,14 +111,13 @@ export const authApi = {
       };
     }
     
-    console.log('API: Login failed - invalid credentials');
     return {
       success: false,
       message: 'Invalid credentials'
     };
   },
 
-  async logout(): Promise<ApiResponse<void>> {
+  logout: async (): Promise<ApiResponse<void>> => {
     await delay(500);
     return {
       success: true,
@@ -538,7 +128,7 @@ export const authApi = {
 
 // User API
 export const userApi = {
-  async getUsers(): Promise<ApiResponse<User[]>> {
+  getUsers: async (): Promise<ApiResponse<User[]>> => {
     await delay(800);
     return {
       success: true,
@@ -547,17 +137,16 @@ export const userApi = {
     };
   },
 
-  async createUser(userData: any): Promise<ApiResponse<User>> {
+  createUser: async (userData: any): Promise<ApiResponse<User>> => {
     await delay(1000);
     const newUser: User = {
       id: Date.now().toString(),
       ...userData,
-      role: mockUsers[0].role,
+      role: mockUsers.find(u => u.roleId === userData.roleId)?.role || mockUsers[0].role,
       createdAt: new Date(),
       updatedAt: new Date(),
       isActive: true
     };
-    
     return {
       success: true,
       data: newUser,
@@ -565,7 +154,7 @@ export const userApi = {
     };
   },
 
-  async deleteUser(id: string): Promise<ApiResponse<void>> {
+  deleteUser: async (id: string): Promise<ApiResponse<void>> => {
     await delay(500);
     return {
       success: true,
@@ -576,7 +165,7 @@ export const userApi = {
 
 // Role API
 export const roleApi = {
-  async getRoles(): Promise<ApiResponse<Role[]>> {
+  getRoles: async (): Promise<ApiResponse<Role[]>> => {
     await delay(600);
     return {
       success: true,
@@ -591,7 +180,7 @@ export const roleApi = {
     };
   },
 
-  async getPermissions(): Promise<ApiResponse<Permission[]>> {
+  getPermissions: async (): Promise<ApiResponse<Permission[]>> => {
     await delay(400);
     return {
       success: true,
@@ -599,55 +188,45 @@ export const roleApi = {
         { id: '1', name: 'Create Users', resource: 'users', action: 'create', description: 'Create new users', module: 'user_management' },
         { id: '2', name: 'View Users', resource: 'users', action: 'read', description: 'View user information', module: 'user_management' },
         { id: '3', name: 'Edit Users', resource: 'users', action: 'update', description: 'Edit existing users', module: 'user_management' },
-        { id: '4', name: 'Delete Users', resource: 'users', action: 'delete', description: 'Delete users', module: 'user_management' },
-        { id: '5', name: 'Create Surveys', resource: 'surveys', action: 'create', description: 'Create new surveys', module: 'survey_management' },
-        { id: '6', name: 'View Surveys', resource: 'surveys', action: 'read', description: 'View survey information', module: 'survey_management' },
-        { id: '7', name: 'Edit Surveys', resource: 'surveys', action: 'update', description: 'Edit existing surveys', module: 'survey_management' },
-        { id: '8', name: 'Delete Surveys', resource: 'surveys', action: 'delete', description: 'Delete surveys', module: 'survey_management' },
-        { id: '9', name: 'View Results', resource: 'results', action: 'read', description: 'View test results', module: 'analytics' },
-        { id: '10', name: 'Export Results', resource: 'results', action: 'export', description: 'Export test results', module: 'analytics' }
+        { id: '4', name: 'Delete Users', resource: 'users', action: 'delete', description: 'Delete users', module: 'user_management' }
       ],
       message: 'Permissions fetched successfully'
     };
   },
 
-  async createRole(roleData: any): Promise<ApiResponse<Role>> {
+  createRole: async (roleData: any): Promise<ApiResponse<Role>> => {
     await delay(1000);
-    const newRole: Role = {
-      id: Date.now().toString(),
-      ...roleData,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isActive: true,
-      level: 5
-    };
-    
     return {
       success: true,
-      data: newRole,
+      data: {
+        id: Date.now().toString(),
+        ...roleData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isActive: true,
+        level: 5
+      },
       message: 'Role created successfully'
     };
   },
 
-  async updateRole(id: string, roleData: any): Promise<ApiResponse<Role>> {
+  updateRole: async (id: string, roleData: any): Promise<ApiResponse<Role>> => {
     await delay(1000);
-    const updatedRole: Role = {
-      id,
-      ...roleData,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      isActive: true,
-      level: 5
-    };
-    
     return {
       success: true,
-      data: updatedRole,
+      data: {
+        id,
+        ...roleData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isActive: true,
+        level: 5
+      },
       message: 'Role updated successfully'
     };
   },
 
-  async deleteRole(id: string): Promise<ApiResponse<void>> {
+  deleteRole: async (id: string): Promise<ApiResponse<void>> => {
     await delay(500);
     return {
       success: true,
@@ -658,7 +237,7 @@ export const roleApi = {
 
 // Survey API
 export const surveyApi = {
-  async getSurveys(): Promise<ApiResponse<Survey[]>> {
+  getSurveys: async (): Promise<ApiResponse<Survey[]>> => {
     await delay(800);
     return {
       success: true,
@@ -667,7 +246,7 @@ export const surveyApi = {
     };
   },
 
-  async createSurvey(surveyData: any): Promise<ApiResponse<Survey>> {
+  createSurvey: async (surveyData: any): Promise<ApiResponse<Survey>> => {
     await delay(1200);
     const newSurvey: Survey = {
       id: Date.now().toString(),
@@ -675,9 +254,10 @@ export const surveyApi = {
       sections: [],
       createdAt: new Date(),
       updatedAt: new Date(),
-      isActive: true
+      isActive: true,
+      createdBy: '1'
     };
-    
+    mockSurveys.push(newSurvey);
     return {
       success: true,
       data: newSurvey,
@@ -685,40 +265,44 @@ export const surveyApi = {
     };
   },
 
-  async getSurveyById(id: string): Promise<ApiResponse<Survey>> {
+  getSurveySections: async (surveyId: string): Promise<ApiResponse<Section[]>> => {
     await delay(600);
-    const survey = mockSurveys.find(s => s.id === id);
-    if (survey) {
-      return {
-        success: true,
-        data: survey,
-        message: 'Survey fetched successfully'
-      };
-    }
     return {
-      success: false,
-      message: 'Survey not found'
+      success: true,
+      data: [
+        {
+          id: '1',
+          surveyId,
+          title: 'Basic Computer Skills',
+          description: 'Fundamental computer operations and software usage',
+          questionsCount: 10,
+          order: 1,
+          questions: []
+        },
+        {
+          id: '2',
+          surveyId,
+          title: 'Internet and Digital Communication',
+          description: 'Web browsing, email, and online communication tools',
+          questionsCount: 10,
+          order: 2,
+          questions: []
+        },
+        {
+          id: '3',
+          surveyId,
+          title: 'Digital Security and Privacy',
+          description: 'Online safety, password management, and privacy protection',
+          questionsCount: 10,
+          order: 3,
+          questions: []
+        }
+      ],
+      message: 'Sections fetched successfully'
     };
   },
 
-  async getSurveySections(surveyId: string): Promise<ApiResponse<Section[]>> {
-    await delay(500);
-    const survey = mockSurveys.find(s => s.id === surveyId);
-    if (survey) {
-      return {
-        success: true,
-        data: survey.sections,
-        message: 'Survey sections fetched successfully'
-      };
-    }
-    return {
-      success: false,
-      data: [],
-      message: 'Survey not found'
-    };
-  },
-
-  async createSection(surveyId: string, sectionData: any): Promise<ApiResponse<Section>> {
+  createSection: async (surveyId: string, sectionData: any): Promise<ApiResponse<Section>> => {
     await delay(800);
     const newSection: Section = {
       id: Date.now().toString(),
@@ -726,7 +310,6 @@ export const surveyApi = {
       ...sectionData,
       questions: []
     };
-    
     return {
       success: true,
       data: newSection,
@@ -737,37 +320,23 @@ export const surveyApi = {
 
 // Question API
 export const questionApi = {
-  async getQuestions(surveyId?: string, sectionId?: string): Promise<ApiResponse<Question[]>> {
-    await delay(800);
-    let filteredQuestions = mockQuestions;
-    
-    if (sectionId) {
-      filteredQuestions = mockQuestions.filter(q => q.sectionId === sectionId);
-    } else if (surveyId) {
-      // Filter questions by survey through sections
-      const survey = mockSurveys.find(s => s.id === surveyId);
-      if (survey) {
-        const sectionIds = survey.sections.map(section => section.id);
-        filteredQuestions = mockQuestions.filter(q => sectionIds.includes(q.sectionId));
-      }
-    }
-    
+  getQuestions: async (surveyId: string, sectionId: string): Promise<ApiResponse<Question[]>> => {
+    await delay(600);
     return {
       success: true,
-      data: filteredQuestions,
+      data: [],
       message: 'Questions fetched successfully'
     };
   },
 
-  async createQuestion(questionData: any): Promise<ApiResponse<Question>> {
-    await delay(1000);
+  createQuestion: async (questionData: any): Promise<ApiResponse<Question>> => {
+    await delay(800);
     const newQuestion: Question = {
       id: Date.now().toString(),
       ...questionData,
       createdAt: new Date(),
       updatedAt: new Date()
     };
-    
     return {
       success: true,
       data: newQuestion,
@@ -775,673 +344,304 @@ export const questionApi = {
     };
   },
 
-  async updateQuestion(id: string, questionData: any): Promise<ApiResponse<Question>> {
-    await delay(1000);
-    const updatedQuestion: Question = {
-      id,
-      ...questionData,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-    
-    return {
-      success: true,
-      data: updatedQuestion,
-      message: 'Question updated successfully'
-    };
-  },
-
-  async deleteQuestion(id: string): Promise<ApiResponse<void>> {
-    await delay(500);
-    return {
-      success: true,
-      message: 'Question deleted successfully'
-    };
-  },
-
-  async uploadQuestions(surveyId: string, file: File): Promise<ApiResponse<FileUploadResult>> {
+  uploadQuestions: async (surveyId: string, file: File): Promise<ApiResponse<FileUploadResult>> => {
     await delay(2000);
-    
-    // Simulate file processing
-    const result: FileUploadResult = {
-      fileName: file.name,
-      questionsAdded: Math.floor(Math.random() * 20) + 10,
-      questionsSkipped: Math.floor(Math.random() * 5),
-      errors: Math.random() > 0.7 ? ['Row 15: Invalid question format', 'Row 23: Missing correct answer'] : [],
-      success: true
-    };
-    
     return {
       success: true,
-      data: result,
+      data: {
+        fileName: file.name,
+        questionsAdded: 25,
+        questionsSkipped: 5,
+        errors: ['Row 3: Invalid question type', 'Row 8: Missing correct answer'],
+        success: true
+      },
       message: 'Questions uploaded successfully'
     };
   },
 
-  async downloadTemplate(): Promise<Blob> {
+  downloadTemplate: async (): Promise<Blob> => {
     await delay(500);
-    
-    // Create CSV template content
     const csvContent = `Question Text,Question Type,Complexity,Option A,Option B,Option C,Option D,Correct Answer,Points,Explanation
-"What is the primary function of an operating system?",single_choice,easy,"To manage hardware and software resources","To create documents","To browse the internet","To play games",A,1,"An operating system manages all hardware and software resources of a computer"
-"Which of the following are input devices? (Select all that apply)",multiple_choice,medium,"Keyboard","Mouse","Monitor","Microphone","A,B,D",2,"Input devices allow users to provide data to the computer. Monitor is an output device"
-"What does CPU stand for?",single_choice,easy,"Central Processing Unit","Computer Personal Unit","Central Program Unit","Computer Processing Unit",A,1,"CPU stands for Central Processing Unit"
-"Which programming languages are commonly used for web development?",multiple_choice,hard,"JavaScript","Python","HTML","CSS","A,C,D",3,"JavaScript, HTML, and CSS are core web technologies. Python is primarily server-side"
-"What is the purpose of RAM in a computer?",single_choice,medium,"Temporary storage for active programs","Permanent storage for files","Processing calculations","Connecting to internet",A,2,"RAM (Random Access Memory) provides temporary storage for programs currently being used"`;
-
+"What is the capital of France?",single_choice,easy,"Paris","London","Berlin","Madrid",A,1,"Paris is the capital and largest city of France"
+"Which of the following are programming languages?",multiple_choice,medium,"Python","JavaScript","HTML","CSS","A,B",2,"Python and JavaScript are programming languages, while HTML and CSS are markup and styling languages"`;
+    
     return new Blob([csvContent], { type: 'text/csv' });
   }
 };
 
 // Test API
 export const testApi = {
-  async startTest(surveyId: string): Promise<ApiResponse<TestSession>> {
-    await delay(100);
-    await delay(500); // Reduced delay for better UX
-    
-    const session: TestSession = {
-      id: `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      userId: '5',
-      surveyId,
-      startTime: new Date(),
-      timeRemaining: 35 * 60, // 35 minutes in seconds
-      currentQuestionIndex: 0,
-      answers: [],
-      status: 'in_progress',
-      attemptNumber: 1
-    };
-    console.log('API: Created session:', session);
-    
+  getQuestionsForSession: async (sessionId: string): Promise<ApiResponse<Question[]>> => {
+    await delay(1000);
     return {
       success: true,
-      data: session,
-      message: 'Test started successfully'
+      data: [],
+      message: 'Questions loaded for session'
     };
   },
 
-  async getSession(sessionId: string): Promise<ApiResponse<TestSession>> {
-    await delay(500);
-    
-    const session: TestSession = {
-      id: sessionId,
-      userId: '5',
-      surveyId: '1',
-      startTime: new Date(Date.now() - 10 * 60 * 1000), // Started 10 minutes ago
-      timeRemaining: 25 * 60, // 25 minutes remaining
-      currentQuestionIndex: 5,
-      answers: [],
-      status: 'in_progress',
-      attemptNumber: 1
-    };
-    
+  saveAnswer: async (sessionId: string, questionId: string, selectedOptions: string[]): Promise<ApiResponse<void>> => {
+    await delay(200);
     return {
       success: true,
-      data: session,
-      message: 'Session fetched successfully'
+      message: 'Answer saved'
     };
   },
 
-  async getQuestionsForSession(sessionId: string): Promise<ApiResponse<Question[]>> {
-    await delay(800);
-    return {
-      success: true,
-      data: mockQuestions,
-      message: 'Questions fetched successfully'
-    };
-  },
-
-  async saveAnswer(sessionId: string, questionId: string, selectedOptions: string[]): Promise<ApiResponse<void>> {
+  updateSession: async (sessionId: string, sessionData: any): Promise<ApiResponse<void>> => {
     await delay(300);
     return {
       success: true,
-      message: 'Answer saved successfully'
+      message: 'Session updated'
     };
   },
 
-  async updateSession(sessionId: string, sessionData: any): Promise<ApiResponse<void>> {
+  pauseSession: async (sessionId: string): Promise<ApiResponse<void>> => {
     await delay(500);
     return {
       success: true,
-      message: 'Session updated successfully'
+      message: 'Session paused'
     };
   },
 
-  async pauseSession(sessionId: string): Promise<ApiResponse<void>> {
-    await delay(500);
-    return {
-      success: true,
-      message: 'Session paused successfully'
-    };
-  },
-
-  async submitTest(sessionId: string): Promise<ApiResponse<TestResult>> {
+  submitTest: async (sessionId: string): Promise<ApiResponse<TestResult>> => {
     await delay(1500);
-    
-    const result: TestResult = {
-      id: `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      userId: '5',
-      user: mockUsers[4],
-      surveyId: '1',
-      survey: mockSurveys[0],
-      sessionId,
-      score: Math.floor(Math.random() * 40) + 60, // Random score between 60-100
-      totalQuestions: 30,
-      correctAnswers: Math.floor(Math.random() * 15) + 18, // Random between 18-32
-      isPassed: true,
-      timeSpent: 25 * 60, // 25 minutes
-      attemptNumber: 1,
-      sectionScores: [
-        {
-          sectionId: 's1',
-          sectionTitle: 'Basic Computer Skills',
-          score: 85,
-          totalQuestions: 10,
-          correctAnswers: 8
-        },
-        {
-          sectionId: 's2',
-          sectionTitle: 'Internet and Communication',
-          score: 75,
-          totalQuestions: 10,
-          correctAnswers: 7
-        },
-        {
-          sectionId: 's3',
-          sectionTitle: 'Data Security',
-          score: 90,
-          totalQuestions: 10,
-          correctAnswers: 9
-        }
-      ],
-      completedAt: new Date()
-    };
-    
     return {
       success: true,
-      data: result,
+      data: {
+        id: Date.now().toString(),
+        userId: '5',
+        user: mockUsers[4],
+        surveyId: '1',
+        survey: mockSurveys[0],
+        sessionId,
+        score: 85,
+        totalQuestions: 30,
+        correctAnswers: 26,
+        isPassed: true,
+        timeSpent: 1800,
+        attemptNumber: 1,
+        sectionScores: [],
+        completedAt: new Date()
+      },
       message: 'Test submitted successfully'
     };
   },
 
-  async syncOfflineData(): Promise<ApiResponse<void>> {
+  syncOfflineData: async (): Promise<ApiResponse<void>> => {
     await delay(1000);
     return {
       success: true,
-      message: 'Offline data synced successfully'
+      message: 'Offline data synced'
     };
   }
 };
 
 // Dashboard APIs
 export const dashboardApi = {
-  async getDashboardData(): Promise<ApiResponse<Dashboard>> {
+  getDashboardData: async (): Promise<ApiResponse<Dashboard>> => {
     await delay(1000);
-    
-    const dashboard: Dashboard = {
-      totalUsers: 1247,
-      totalSurveys: 8,
-      totalAttempts: 3456,
-      averageScore: 78.5,
-      passRate: 82.3,
-      recentActivity: [
-        {
-          id: '1',
-          type: 'test_completed',
-          description: 'John Doe completed Digital Literacy Assessment',
-          userId: '5',
-          userName: 'John Doe',
-          timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000)
-        },
-        {
-          id: '2',
-          type: 'user_created',
-          description: 'New enumerator Sarah Smith was added',
-          userId: '1',
-          userName: 'Admin',
-          timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000)
-        }
-      ],
-      performanceByRole: [
-        { name: 'Admin', value: 95, total: 100, percentage: 95 },
-        { name: 'Supervisor', value: 88, total: 100, percentage: 88 },
-        { name: 'Enumerator', value: 76, total: 100, percentage: 76 }
-      ],
-      performanceBySurvey: [
-        { name: 'Digital Literacy', value: 82, total: 100, percentage: 82 },
-        { name: 'Data Collection', value: 75, total: 100, percentage: 75 }
-      ],
-      monthlyTrends: [
-        { month: 'Jan', attempts: 245, passed: 198, failed: 47, passRate: 80.8 },
-        { month: 'Feb', attempts: 289, passed: 241, failed: 48, passRate: 83.4 },
-        { month: 'Mar', attempts: 312, passed: 267, failed: 45, passRate: 85.6 }
-      ]
-    };
-    
     return {
       success: true,
-      data: dashboard,
+      data: {
+        totalUsers: 1250,
+        totalSurveys: 15,
+        totalAttempts: 3420,
+        averageScore: 78.5,
+        passRate: 82.3,
+        recentActivity: [],
+        performanceByRole: [
+          { name: 'Admin', value: 95, total: 100, percentage: 95 },
+          { name: 'Supervisor', value: 88, total: 100, percentage: 88 },
+          { name: 'Enumerator', value: 75, total: 100, percentage: 75 }
+        ],
+        performanceBySurvey: [
+          { name: 'Digital Literacy', value: 82, total: 100, percentage: 82 },
+          { name: 'Data Collection', value: 76, total: 100, percentage: 76 }
+        ],
+        monthlyTrends: []
+      },
       message: 'Dashboard data fetched successfully'
     };
   }
 };
 
 export const zoDashboardApi = {
-  async getDashboardData(dateFilter: string): Promise<ApiResponse<ZODashboard>> {
+  getDashboardData: async (dateFilter: string): Promise<ApiResponse<ZODashboard>> => {
     await delay(1200);
-    
-    const dashboard: ZODashboard = {
-      totalUsers: 1247,
-      totalSurveys: 8,
-      totalAttempts: 3456,
-      averageScore: 78.5,
-      passRate: 82.3,
-      totalZones: 5,
-      totalRegions: 15,
-      recentActivity: [],
-      performanceByRole: [],
-      performanceBySurvey: [],
-      monthlyTrends: [],
-      zonePerformance: [
-        {
-          zoneId: 'z1',
-          zoneName: 'Zone A',
-          totalEnumerators: 245,
-          completedTests: 198,
-          passRate: 80.8,
-          averageScore: 78.5,
-          regions: []
-        }
-      ],
-      regionalBreakdown: [
-        {
-          regionId: 'r1',
-          regionName: 'Region 1',
-          totalEnumerators: 89,
-          completedTests: 72,
-          passRate: 80.9,
-          averageScore: 79.2,
-          supervisors: []
-        }
-      ],
-      topPerformingRegions: [],
-      lowPerformingRegions: []
-    };
-    
     return {
       success: true,
-      data: dashboard,
+      data: {
+        totalUsers: 1250,
+        totalSurveys: 15,
+        totalAttempts: 3420,
+        averageScore: 78.5,
+        passRate: 82.3,
+        recentActivity: [],
+        performanceByRole: [],
+        performanceBySurvey: [],
+        monthlyTrends: [],
+        totalZones: 5,
+        totalRegions: 25,
+        zonePerformance: [],
+        regionalBreakdown: [],
+        topPerformingRegions: [],
+        lowPerformingRegions: []
+      },
       message: 'ZO Dashboard data fetched successfully'
     };
   }
 };
 
 export const roDashboardApi = {
-  async getDashboardData(dateFilter: string): Promise<ApiResponse<RODashboard>> {
+  getDashboardData: async (dateFilter: string): Promise<ApiResponse<RODashboard>> => {
     await delay(1200);
-    
-    const dashboard: RODashboard = {
-      totalUsers: 456,
-      totalSurveys: 8,
-      totalAttempts: 1234,
-      averageScore: 76.8,
-      passRate: 79.5,
-      totalDistricts: 8,
-      totalSupervisors: 12,
-      recentActivity: [],
-      performanceByRole: [],
-      performanceBySurvey: [],
-      monthlyTrends: [],
-      districtPerformance: [
-        {
-          districtId: 'd1',
-          districtName: 'District 1',
-          totalEnumerators: 56,
-          completedTests: 45,
-          passRate: 80.4,
-          averageScore: 77.8
-        }
-      ],
-      supervisorPerformance: [
-        {
-          supervisorId: 's1',
-          supervisorName: 'John Smith',
-          totalEnumerators: 8,
-          completedTests: 6,
-          passRate: 75.0,
-          averageScore: 76.5,
-          enumerators: []
-        }
-      ],
-      enumeratorDistribution: []
-    };
-    
     return {
       success: true,
-      data: dashboard,
+      data: {
+        totalUsers: 250,
+        totalSurveys: 15,
+        totalAttempts: 680,
+        averageScore: 76.2,
+        passRate: 79.8,
+        recentActivity: [],
+        performanceByRole: [],
+        performanceBySurvey: [],
+        monthlyTrends: [],
+        totalDistricts: 8,
+        totalSupervisors: 24,
+        districtPerformance: [],
+        supervisorPerformance: [],
+        enumeratorDistribution: []
+      },
       message: 'RO Dashboard data fetched successfully'
     };
   }
 };
 
 export const supervisorDashboardApi = {
-  async getDashboardData(dateFilter: string): Promise<ApiResponse<SupervisorDashboard>> {
+  getDashboardData: async (dateFilter: string): Promise<ApiResponse<SupervisorDashboard>> => {
     await delay(1000);
-    
-    const dashboard: SupervisorDashboard = {
-      totalUsers: 8,
-      totalSurveys: 3,
-      totalAttempts: 24,
-      averageScore: 78.2,
-      passRate: 83.3,
-      totalEnumerators: 8,
-      recentActivity: [],
-      performanceByRole: [],
-      performanceBySurvey: [],
-      monthlyTrends: [],
-      teamPerformance: [
-        {
-          teamId: 't1',
-          teamName: 'Team Alpha',
-          totalMembers: 4,
-          completedTests: 12,
-          passRate: 83.3,
-          averageScore: 79.5,
-          members: []
-        }
-      ],
-      enumeratorStatus: [
-        {
-          id: 'e1',
-          user: mockUsers[4],
-          surveys: [
-            {
-              surveyId: '1',
-              surveyTitle: 'Digital Literacy Assessment',
-              status: 'completed',
-              attempts: 1,
-              maxAttempts: 3,
-              bestScore: 85,
-              lastAttempt: new Date(),
-              targetDate: new Date('2024-12-31'),
-              isPassed: true,
-              certificateId: 'cert1'
-            }
-          ],
-          overallProgress: 100,
-          totalCertificates: 1,
-          lastActivity: new Date()
-        }
-      ],
-      upcomingDeadlines: []
-    };
-    
     return {
       success: true,
-      data: dashboard,
+      data: {
+        totalUsers: 50,
+        totalSurveys: 15,
+        totalAttempts: 150,
+        averageScore: 74.8,
+        passRate: 76.5,
+        recentActivity: [],
+        performanceByRole: [],
+        performanceBySurvey: [],
+        monthlyTrends: [],
+        totalEnumerators: 12,
+        teamPerformance: [],
+        enumeratorStatus: [],
+        upcomingDeadlines: []
+      },
       message: 'Supervisor Dashboard data fetched successfully'
     };
   }
 };
 
 export const enumeratorDashboardApi = {
-  async getDashboardData(): Promise<ApiResponse<EnumeratorDashboard>> {
-    await delay(1000);
-    
-    const dashboard: EnumeratorDashboard = {
-      availableTests: [
-        {
-          surveyId: '1',
-          title: 'Digital Literacy Assessment 2024',
-          description: 'Comprehensive assessment of digital literacy skills',
-          targetDate: new Date('2024-12-31'),
-          duration: 35,
-          totalQuestions: 30,
-          passingScore: 70,
-          attemptsLeft: 3,
-          maxAttempts: 3,
-          isEligible: true
-        },
-        {
-          surveyId: '2',
-          title: 'Data Collection Training',
-          description: 'Training assessment for data collection procedures',
-          targetDate: new Date('2024-11-30'),
-          duration: 25,
-          totalQuestions: 20,
-          passingScore: 75,
-          attemptsLeft: 2,
-          maxAttempts: 2,
-          isEligible: true
-        },
-        {
-          surveyId: '3',
-          title: 'Travel',
-          description: 'Comprehensive survey on travel patterns and transportation usage',
-          targetDate: new Date('2024-12-15'),
-          duration: 40,
-          totalQuestions: 30,
-          passingScore: 70,
-          attemptsLeft: 3,
-          maxAttempts: 3,
-          isEligible: true
-        },
-        {
-          surveyId: '4',
-          title: 'Tourism',
-          description: 'Assessment of tourism industry knowledge and data management',
-          targetDate: new Date('2024-12-20'),
-          duration: 45,
-          totalQuestions: 30,
-          passingScore: 75,
-          attemptsLeft: 3,
-          maxAttempts: 3,
-          isEligible: true
-        }
-      ],
-      completedTests: [
-        {
-          resultId: 'r1',
-          surveyTitle: 'Quality Assurance Test',
-          score: 85,
-          isPassed: true,
-          completedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-          attemptNumber: 1,
-          certificateId: 'cert1'
-        }
-      ],
-      upcomingTests: [
-        {
-          surveyId: '1',
-          title: 'Digital Literacy Assessment 2024',
-          targetDate: new Date('2024-12-31'),
-          daysLeft: 45,
-          isOverdue: false
-        },
-        {
-          surveyId: '3',
-          title: 'Travel',
-          targetDate: new Date('2024-12-15'),
-          daysLeft: 30,
-          isOverdue: false
-        },
-        {
-          surveyId: '4',
-          title: 'Tourism',
-          targetDate: new Date('2024-12-20'),
-          daysLeft: 35,
-          isOverdue: false
-        }
-      ],
-      certificates: [
-        {
-          id: 'cert1',
-          userId: '5',
-          user: mockUsers[4],
-          surveyId: '1',
-          survey: mockSurveys[0],
-          resultId: 'r1',
-          certificateNumber: 'CERT-2024-001',
-          issuedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-          downloadCount: 2,
-          status: 'active'
-        }
-      ],
-      overallProgress: 75,
-      averageScore: 82.5,
-      totalAttempts: 3,
-      passedTests: 2
-    };
-    
+  getDashboardData: async (): Promise<ApiResponse<EnumeratorDashboard>> => {
+    await delay(800);
     return {
       success: true,
-      data: dashboard,
+      data: {
+        availableTests: [
+          {
+            surveyId: '1',
+            title: 'Digital Literacy Assessment',
+            description: 'Comprehensive assessment of digital skills and computer literacy',
+            targetDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            duration: 35,
+            totalQuestions: 30,
+            passingScore: 70,
+            attemptsLeft: 3,
+            maxAttempts: 3,
+            isEligible: true
+          }
+        ],
+        completedTests: [],
+        upcomingTests: [],
+        certificates: [],
+        overallProgress: 0,
+        averageScore: 0,
+        totalAttempts: 0,
+        passedTests: 0
+      },
       message: 'Enumerator Dashboard data fetched successfully'
     };
   }
 };
 
-// Results and Analytics API
+// Results API
 export const resultApi = {
-  async getResults(filters: AnalyticsFilter): Promise<ApiResponse<TestResult[]>> {
+  getResults: async (filters: AnalyticsFilter): Promise<ApiResponse<TestResult[]>> => {
     await delay(1000);
-    
-    const results: TestResult[] = [
-      {
-        id: 'r1',
-        userId: '5',
-        user: mockUsers[4],
-        surveyId: '1',
-        survey: mockSurveys[0],
-        sessionId: 'session1',
-        score: 85,
-        totalQuestions: 30,
-        correctAnswers: 25,
-        isPassed: true,
-        timeSpent: 25 * 60,
-        attemptNumber: 1,
-        sectionScores: [
-          {
-            sectionId: 's1',
-            sectionTitle: 'Basic Computer Skills',
-            score: 85,
-            totalQuestions: 10,
-            correctAnswers: 8
-          }
-        ],
-        completedAt: new Date(),
-        certificateId: 'cert1'
-      }
-    ];
-    
     return {
       success: true,
-      data: results,
+      data: [],
       message: 'Results fetched successfully'
     };
   },
 
-  async getAnalytics(filters: AnalyticsFilter): Promise<ApiResponse<AnalyticsData>> {
+  getAnalytics: async (filters: AnalyticsFilter): Promise<ApiResponse<AnalyticsData>> => {
     await delay(1200);
-    
-    const analytics: AnalyticsData = {
-      overview: {
-        totalAttempts: 1234,
-        passRate: 82.3,
-        averageScore: 78.5,
-        averageTime: 28 * 60
-      },
-      performanceByRole: [
-        { name: 'Admin', value: 95, total: 100, percentage: 95 },
-        { name: 'Supervisor', value: 88, total: 100, percentage: 88 },
-        { name: 'Enumerator', value: 76, total: 100, percentage: 76 }
-      ],
-      performanceBySurvey: [
-        { name: 'Digital Literacy', value: 82, total: 100, percentage: 82 },
-        { name: 'Data Collection', value: 75, total: 100, percentage: 75 }
-      ],
-      performanceByJurisdiction: [],
-      timeSeriesData: [
-        { date: '2024-01', attempts: 245, passed: 198, averageScore: 78.5 },
-        { date: '2024-02', attempts: 289, passed: 241, averageScore: 79.2 },
-        { date: '2024-03', attempts: 312, passed: 267, averageScore: 80.1 }
-      ],
-      topPerformers: [
-        {
-          userId: '1',
-          userName: 'John Doe',
-          averageScore: 95.5,
-          totalAttempts: 3,
-          passRate: 100
-        }
-      ],
-      lowPerformers: [
-        {
-          userId: '2',
-          userName: 'Jane Smith',
-          averageScore: 65.2,
-          totalAttempts: 2,
-          passRate: 50
-        }
-      ]
-    };
-    
     return {
       success: true,
-      data: analytics,
+      data: {
+        overview: {
+          totalAttempts: 3420,
+          passRate: 82.3,
+          averageScore: 78.5,
+          averageTime: 1800
+        },
+        performanceByRole: [],
+        performanceBySurvey: [],
+        performanceByJurisdiction: [],
+        timeSeriesData: [],
+        topPerformers: [],
+        lowPerformers: []
+      },
       message: 'Analytics data fetched successfully'
     };
   },
 
-  async exportResults(filters: AnalyticsFilter): Promise<{ data: string }> {
-    await delay(1500);
-    
-    const csvData = `User,Survey,Score,Status,Completed At
-John Doe,Digital Literacy Assessment,85%,Passed,2024-01-15 10:30:00
-Jane Smith,Data Collection Training,72%,Passed,2024-01-14 14:20:00`;
-    
-    return { data: csvData };
+  exportResults: async (filters: AnalyticsFilter): Promise<ApiResponse<Blob>> => {
+    await delay(2000);
+    return {
+      success: true,
+      data: new Blob(['mock csv data'], { type: 'text/csv' }),
+      message: 'Results exported successfully'
+    };
   }
 };
 
 // Certificate API
 export const certificateApi = {
-  async getCertificates(): Promise<ApiResponse<Certificate[]>> {
+  getCertificates: async (): Promise<ApiResponse<Certificate[]>> => {
     await delay(800);
-    
-    const certificates: Certificate[] = [
-      {
-        id: 'cert1',
-        userId: '5',
-        user: mockUsers[4],
-        surveyId: '1',
-        survey: mockSurveys[0],
-        resultId: 'r1',
-        certificateNumber: 'CERT-2024-001',
-        issuedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-        downloadCount: 2,
-        status: 'active'
-      }
-    ];
-    
     return {
       success: true,
-      data: certificates,
+      data: [],
       message: 'Certificates fetched successfully'
     };
   },
 
-  async downloadCertificate(certificateId: string): Promise<{ data: Blob }> {
-    await delay(1000);
-    
-    // Create a mock PDF blob
-    const pdfContent = 'Mock PDF content for certificate';
-    const blob = new Blob([pdfContent], { type: 'application/pdf' });
-    
-    return { data: blob };
+  downloadCertificate: async (certificateId: string): Promise<ApiResponse<Blob>> => {
+    await delay(1500);
+    return {
+      success: true,
+      data: new Blob(['mock pdf data'], { type: 'application/pdf' }),
+      message: 'Certificate downloaded successfully'
+    };
   },
 
-  async revokeCertificate(certificateId: string): Promise<ApiResponse<void>> {
-    await delay(100);
+  revokeCertificate: async (certificateId: string): Promise<ApiResponse<void>> => {
+    await delay(800);
     return {
       success: true,
       message: 'Certificate revoked successfully'
@@ -1449,196 +649,46 @@ export const certificateApi = {
   }
 };
 
-// Enumerator API
-export const enumeratorApi = {
-  async getEnumeratorStatus(): Promise<ApiResponse<EnumeratorStatus[]>> {
-    await delay(1000);
-    
-    const status: EnumeratorStatus[] = [
-      {
-        id: 'e1',
-        user: mockUsers[4],
-        surveys: [
-          {
-            surveyId: '1',
-            surveyTitle: 'Digital Literacy Assessment',
-            status: 'completed',
-            attempts: 1,
-            maxAttempts: 3,
-            bestScore: 85,
-            lastAttempt: new Date(),
-            targetDate: new Date('2024-12-31'),
-            isPassed: true,
-            certificateId: 'cert1'
-          }
-        ],
-        overallProgress: 100,
-        totalCertificates: 1,
-        lastActivity: new Date()
-      }
-    ];
-    
-    return {
-      success: true,
-      data: status,
-      message: 'Enumerator status fetched successfully'
-    };
-  }
-};
-
 // Settings API
 export const settingsApi = {
-  async getSettings(): Promise<ApiResponse<SystemSettings[]>> {
+  getSettings: async (): Promise<ApiResponse<SystemSettings[]>> => {
     await delay(600);
-    
-    const settings: SystemSettings[] = [
-      {
-        id: '1',
-        category: 'general',
-        key: 'site_name',
-        value: 'eSigma Survey Platform',
-        description: 'Name of the application',
-        type: 'string',
-        isEditable: true,
-        updatedAt: new Date(),
-        updatedBy: 'Admin'
-      },
-      {
-        id: '2',
-        category: 'test',
-        key: 'default_test_duration',
-        value: '35',
-        description: 'Default test duration in minutes',
-        type: 'number',
-        isEditable: true,
-        updatedAt: new Date(),
-        updatedBy: 'Admin'
-      },
-      {
-        id: '3',
-        category: 'security',
-        key: 'session_timeout',
-        value: '30',
-        description: 'Session timeout in minutes',
-        type: 'number',
-        isEditable: true,
-        updatedAt: new Date(),
-        updatedBy: 'Admin'
-      }
-    ];
-    
     return {
       success: true,
-      data: settings,
+      data: [
+        {
+          id: '1',
+          category: 'general',
+          key: 'site_name',
+          value: 'eSigma Survey Platform',
+          description: 'Name of the application',
+          type: 'string',
+          isEditable: true,
+          updatedAt: new Date(),
+          updatedBy: 'admin'
+        }
+      ],
       message: 'Settings fetched successfully'
     };
   },
 
-  async updateSetting(id: string, value: string): Promise<ApiResponse<void>> {
-    await delay(200);
-    
-    // Return more comprehensive mock questions
-    const mockQuestions: Question[] = [
-      {
-        id: 'q1',
-        sectionId: 's1',
-        text: 'What is the primary function of an operating system?',
-        type: 'single_choice',
-        complexity: 'easy',
-        options: [
-          { id: 'o1', text: 'To manage hardware and software resources', isCorrect: true },
-          { id: 'o2', text: 'To create documents', isCorrect: false },
-          { id: 'o3', text: 'To browse the internet', isCorrect: false },
-          { id: 'o4', text: 'To play games', isCorrect: false }
-        ],
-        correctAnswers: ['o1'],
-        explanation: 'An operating system manages all hardware and software resources of a computer.',
-        points: 1,
-        order: 1,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'q2',
-        sectionId: 's1',
-        text: 'Which of the following are input devices? (Select all that apply)',
-        type: 'multiple_choice',
-        complexity: 'medium',
-        options: [
-          { id: 'o5', text: 'Keyboard', isCorrect: true },
-          { id: 'o6', text: 'Mouse', isCorrect: true },
-          { id: 'o7', text: 'Monitor', isCorrect: false },
-          { id: 'o8', text: 'Microphone', isCorrect: true }
-        ],
-        correctAnswers: ['o5', 'o6', 'o8'],
-        explanation: 'Input devices allow users to provide data to the computer. Monitor is an output device.',
-        points: 2,
-        order: 2,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'q3',
-        sectionId: 's2',
-        text: 'What does CPU stand for?',
-        type: 'single_choice',
-        complexity: 'easy',
-        options: [
-          { id: 'o9', text: 'Central Processing Unit', isCorrect: true },
-          { id: 'o10', text: 'Computer Personal Unit', isCorrect: false },
-          { id: 'o11', text: 'Central Program Unit', isCorrect: false },
-          { id: 'o12', text: 'Computer Processing Unit', isCorrect: false }
-        ],
-        correctAnswers: ['o9'],
-        explanation: 'CPU stands for Central Processing Unit, which is the main processor of a computer.',
-        points: 1,
-        order: 3,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'q4',
-        sectionId: 's2',
-        text: 'Which programming languages are commonly used for web development?',
-        type: 'multiple_choice',
-        complexity: 'hard',
-        options: [
-          { id: 'o13', text: 'JavaScript', isCorrect: true },
-          { id: 'o14', text: 'Python', isCorrect: false },
-          { id: 'o15', text: 'HTML', isCorrect: true },
-          { id: 'o16', text: 'CSS', isCorrect: true }
-        ],
-        correctAnswers: ['o13', 'o15', 'o16'],
-        explanation: 'JavaScript, HTML, and CSS are core web technologies. Python is primarily server-side.',
-        points: 3,
-        order: 4,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'q5',
-        sectionId: 's3',
-        text: 'What is the purpose of RAM in a computer?',
-        type: 'single_choice',
-        complexity: 'medium',
-        options: [
-          { id: 'o17', text: 'Temporary storage for active programs', isCorrect: true },
-          { id: 'o18', text: 'Permanent storage for files', isCorrect: false },
-          { id: 'o19', text: 'Processing calculations', isCorrect: false },
-          { id: 'o20', text: 'Connecting to internet', isCorrect: false }
-        ],
-        correctAnswers: ['o17'],
-        explanation: 'RAM (Random Access Memory) provides temporary storage for programs currently being used.',
-        points: 2,
-        order: 5,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ];
-    
+  updateSetting: async (id: string, value: string): Promise<ApiResponse<void>> => {
+    await delay(800);
     return {
       success: true,
-      data: mockQuestions,
+      message: 'Setting updated successfully'
+    };
+  }
+};
+
+// Enumerator API
+export const enumeratorApi = {
+  getEnumeratorStatus: async (): Promise<ApiResponse<EnumeratorStatus[]>> => {
+    await delay(1000);
+    return {
+      success: true,
+      data: [],
+      message: 'Enumerator status fetched successfully'
     };
   }
 };
