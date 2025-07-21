@@ -44,11 +44,16 @@ export function EnumeratorDashboard() {
   const handleStartTest = async (surveyId: string) => {
     try {
       setIsTestStarting(true);
+      console.log('Starting test for survey:', surveyId);
       const response = await testApi.startTest(surveyId);
+      console.log('Test start response:', response);
       if (response.success && response.data) {
         setCurrentSession(response.data);
         // Navigate to test interface
         navigate(`/test/${response.data.id}`);
+      } else {
+        console.error('Failed to start test:', response.message);
+        alert(`Failed to start test: ${response.message}`);
       }
     } catch (error) {
       console.error('Failed to start test:', error);
@@ -465,7 +470,7 @@ export function EnumeratorDashboard() {
                           <Button
                             onClick={() => handleStartTest(test.surveyId)}
                             disabled={!test.isEligible || test.attemptsLeft === 0 || isTestStarting}
-                            loading={isTestStarting}
+                            loading={isTestStarting && selectedTest?.surveyId === test.surveyId}
                             size="sm"
                             className="flex items-center space-x-2"
                           >
@@ -614,7 +619,7 @@ export function EnumeratorDashboard() {
                     handleStartTest(selectedTest.surveyId);
                   }}
                   disabled={!selectedTest.isEligible || selectedTest.attemptsLeft === 0 || isTestStarting}
-                  loading={isTestStarting}
+                  loading={isTestStarting && selectedTest?.surveyId === selectedTest.surveyId}
                   className="flex items-center space-x-2"
                 >
                   <Play className="w-4 h-4" />

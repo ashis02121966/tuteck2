@@ -293,7 +293,7 @@ export function AvailableTests() {
                         <Button
                           onClick={() => handleStartTest(test.surveyId)}
                           disabled={!test.isEligible || test.attemptsLeft === 0 || isTestStarting}
-                          loading={isTestStarting}
+                          loading={isTestStarting && selectedTest?.surveyId === test.surveyId}
                           size="sm"
                           className="flex items-center space-x-2"
                         >
@@ -358,7 +358,7 @@ export function AvailableTests() {
                     handleStartTest(selectedTest.surveyId);
                   }}
                   disabled={!selectedTest.isEligible || selectedTest.attemptsLeft === 0 || isTestStarting}
-                  loading={isTestStarting}
+                  loading={isTestStarting && selectedTest?.surveyId === selectedTest.surveyId}
                   className="flex items-center space-x-2"
                 >
                   <Play className="w-4 h-4" />
