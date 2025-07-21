@@ -15,7 +15,6 @@ const menuItems = {
     { to: '/roles', icon: Shield, label: 'Role Management' },
     { to: '/surveys', icon: FileText, label: 'Survey Management' },
     { to: '/questions', icon: Book, label: 'Question Bank' },
-    { to: '/tourism-survey-setup', icon: Target, label: 'Tourism Survey Setup' },
     { to: '/results', icon: BarChart3, label: 'Results & Analytics' },
     { to: '/enumerator-status', icon: Eye, label: 'Enumerator Status' },
     { to: '/certificates', icon: Award, label: 'Certificates' },

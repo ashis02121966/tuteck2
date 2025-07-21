@@ -23,7 +23,6 @@ import { MyResults } from './pages/MyResults';
 import { MyCertificates } from './pages/MyCertificates';
 import { TestSchedule } from './pages/TestSchedule';
 import { TestInterface } from './pages/TestInterface';
-import { TourismSurveySetup } from './pages/TourismSurveySetup';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
@@ -182,11 +181,6 @@ function AppRoutes() {
       <Route path="/certificates" element={
         <ProtectedRoute>
           <Certificates />
-        </ProtectedRoute>
-      } />
-      <Route path="/tourism-survey-setup" element={
-        <ProtectedRoute>
-          <TourismSurveySetup />
         </ProtectedRoute>
       } />
 
