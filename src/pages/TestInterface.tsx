@@ -144,7 +144,6 @@ export function TestInterface() {
       // Get survey ID from navigation state or use default
       const surveyId = location.state?.surveyId || '1';
       const startTime = location.state?.startTime || new Date().toISOString();
-      console.log('Existing session response:', existingSessionResponse);
       
       // Create new session
       const newSession: TestSession = {
@@ -266,11 +265,6 @@ export function TestInterface() {
           }
         ];
         setQuestions(mockQuestions);
-          console.log('Loaded questions for new session:', randomQuestionsResponse.data);
-          setQuestions(randomQuestionsResponse.data);
-        } else {
-          console.error('Failed to load questions:', randomQuestionsResponse);
-        }
       }
     } catch (error) {
       console.error('Failed to load test session:', error);
