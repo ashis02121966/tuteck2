@@ -42,19 +42,32 @@ export function AvailableTests() {
     try {
       setIsTestStarting(true);
       
-      // Create a unique session ID
-      const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      // First check if user is eligible for this test
+      const selectedTest = availableTests.find(test => test.surveyId === surveyId);
+      if (!selectedTest || !selectedTest.isEligible || selectedTest.attemptsLeft === 0) {
+        alert('You are not eligible to take this test or have no attempts remaining.');
+        return;
+      }
+
+      // Create test session via API
+      const sessionResponse = await testApi.createTestSession(surveyId);
+      if (!sessionResponse.success || !sessionResponse.data) {
+        throw new Error(sessionResponse.message || 'Failed to create test session');
+      }
+
+      const sessionId = sessionResponse.data.id;
       
-      // Navigate directly to test interface with the session ID
+      // Navigate to test interface with the session ID
       navigate(`/test/${sessionId}`, { 
         state: { 
           surveyId: surveyId,
-          startTime: new Date().toISOString()
+          startTime: sessionResponse.data.startTime,
+          sessionData: sessionResponse.data
         }
       });
     } catch (error) {
       console.error('Failed to start test:', error);
-      alert('Failed to start test. Please try again.');
+      alert(`Failed to start test: ${error instanceof Error ? error.message : 'Please try again.'}`);
     } finally {
       setIsTestStarting(false);
       setIsTestModalOpen(false);
