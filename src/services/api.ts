@@ -205,10 +205,14 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 // Authentication API
 export const authApi = {
   async login(email: string, password: string): Promise<ApiResponse<{ user: User; token: string }>> {
-    await delay(1000);
+    console.log('API: Login attempt for:', email);
+    await delay(500); // Reduced delay for better UX
     
     const user = mockUsers.find(u => u.email === email);
+    console.log('API: Found user:', user);
+    
     if (user && password === 'password123') {
+      console.log('API: Login successful');
       return {
         success: true,
         data: {
@@ -219,6 +223,7 @@ export const authApi = {
       };
     }
     
+    console.log('API: Login failed - invalid credentials');
     return {
       success: false,
       message: 'Invalid credentials'

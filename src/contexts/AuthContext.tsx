@@ -42,10 +42,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (email: string, password: string) => {
     try {
+      console.log('Attempting login with:', email);
       const response = await authApi.login(email, password);
+      console.log('Login response:', response);
       
       if (response.success && response.data) {
         const { user, token } = response.data;
+        console.log('Setting user:', user);
         setUser(user);
         localStorage.setItem('authToken', token);
         localStorage.setItem('userData', JSON.stringify(user));
@@ -55,6 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       
       return { success: false, message: response.message };
     } catch (error) {
+      console.error('Login error:', error);
       return { success: false, message: 'Login failed. Please try again.' };
     }
   };

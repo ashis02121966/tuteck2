@@ -18,6 +18,12 @@ export function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      return;
+    }
+    
     setIsLoading(true);
     setError('');
 
@@ -25,22 +31,26 @@ export function Login() {
     
     if (!result.success) {
       setError(result.message);
+    } else {
+      // Login successful, navigation will be handled by the auth context
+      console.log('Login successful');
     }
     
     setIsLoading(false);
   };
 
   const demoCredentials = [
-    { role: 'Admin', email: 'admin@esigma.com', icon: Users, color: 'bg-red-100 text-red-700' },
-    { role: 'ZO User', email: 'zo@esigma.com', icon: Building, color: 'bg-purple-100 text-purple-700' },
-    { role: 'RO User', email: 'ro@esigma.com', icon: Building, color: 'bg-indigo-100 text-indigo-700' },
-    { role: 'Supervisor', email: 'supervisor@esigma.com', icon: UserCheck, color: 'bg-green-100 text-green-700' },
-    { role: 'Enumerator', email: 'enumerator@esigma.com', icon: User, color: 'bg-blue-100 text-blue-700' }
+    { role: 'Admin', email: 'admin@esigma.com', icon: Users, color: 'bg-red-100 text-red-700', password: 'password123' },
+    { role: 'ZO User', email: 'zo@esigma.com', icon: Building, color: 'bg-purple-100 text-purple-700', password: 'password123' },
+    { role: 'RO User', email: 'ro@esigma.com', icon: Building, color: 'bg-indigo-100 text-indigo-700', password: 'password123' },
+    { role: 'Supervisor', email: 'supervisor@esigma.com', icon: UserCheck, color: 'bg-green-100 text-green-700', password: 'password123' },
+    { role: 'Enumerator', email: 'enumerator@esigma.com', icon: User, color: 'bg-blue-100 text-blue-700', password: 'password123' }
   ];
 
   const handleDemoLogin = (demoEmail: string) => {
     setEmail(demoEmail);
     setPassword('password123');
+    setError(''); // Clear any existing errors
   };
 
   return (

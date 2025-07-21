@@ -48,6 +48,7 @@ function AppRoutes() {
   const getDashboardRoute = () => {
     if (!user) return '/dashboard';
     
+    console.log('Getting dashboard route for user role:', user.role.name);
     switch (user.role.name.toLowerCase()) {
       case 'admin':
         return '/dashboard';
@@ -60,6 +61,7 @@ function AppRoutes() {
       case 'enumerator':
         return '/enumerator-dashboard';
       default:
+        console.log('Unknown role, defaulting to dashboard');
         return '/dashboard';
     }
   };
