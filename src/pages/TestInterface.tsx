@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Card } from '../components/UI/Card';
 import { Button } from '../components/UI/Button';
 import { Modal } from '../components/UI/Modal';
@@ -11,6 +11,7 @@ import { formatTime } from '../utils';
 export function TestInterface() {
   const { sessionId } = useParams<{ sessionId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   
   const [session, setSession] = useState<TestSession | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -107,6 +108,7 @@ export function TestInterface() {
 
   useEffect(() => {
     if (sessionId) {
+      console.log('Loading test session with ID:', sessionId);
       loadTestSession();
     }
   }, [sessionId]);
@@ -137,62 +139,143 @@ export function TestInterface() {
   const loadTestSession = async () => {
     try {
       setIsLoading(true);
+      console.log('Loading test session for ID:', sessionId);
       
-      // First check if there's an existing session to resume
-      const existingSessionResponse = await testApi.getSession(sessionId!);
+      // Get survey ID from navigation state or use default
+      const surveyId = location.state?.surveyId || '1';
+      const startTime = location.state?.startTime || new Date().toISOString();
+      console.log('Existing session response:', existingSessionResponse);
       
-      if (existingSessionResponse.success && existingSessionResponse.data) {
-        const existingSession = existingSessionResponse.data;
-        
-        // Check if this is a resumed session
-        if (existingSession.currentQuestionIndex > 0 || 
-            Object.keys(existingSession.answers || {}).length > 0 ||
-            existingSession.pauseTime) {
-          setShowResumeModal(true);
-        }
-        
-        setSession(existingSession);
-        setCurrentQuestionIndex(existingSession.currentQuestionIndex);
-        setTimeRemaining(existingSession.timeRemaining);
-        
-        // Restore answers
-        const restoredAnswers: Record<string, string[]> = {};
-        existingSession.answers?.forEach(answer => {
-          restoredAnswers[answer.questionId] = answer.selectedOptions;
-        });
-        setAnswers(restoredAnswers);
-        
-        // Load questions for this session
-        const questionsResponse = await testApi.getQuestionsForSession(sessionId!);
-        if (questionsResponse.success) {
-          setQuestions(questionsResponse.data);
-        }
+      // Create new session
+      const newSession: TestSession = {
+        id: sessionId!,
+        userId: '5',
+        surveyId: surveyId,
+        startTime: new Date(startTime),
+        timeRemaining: 35 * 60, // 35 minutes
+        currentQuestionIndex: 0,
+        answers: [],
+        status: 'in_progress',
+        attemptNumber: 1
+      };
+      
+      setSession(newSession);
+      setTimeRemaining(newSession.timeRemaining);
+      
+      // Load questions for this session
+      const questionsResponse = await testApi.getQuestionsForSession(sessionId!);
+      if (questionsResponse.success && questionsResponse.data) {
+        setQuestions(questionsResponse.data);
       } else {
-        // Create new session data for demo
-        const mockSession: TestSession = {
-          id: sessionId!,
-          userId: '5',
-          surveyId: '1',
-          startTime: new Date(),
-          timeRemaining: 35 * 60, // 35 minutes
-          currentQuestionIndex: 0,
-          answers: [],
-          status: 'in_progress',
-          attemptNumber: 1
-        };
-        
-        setSession(mockSession);
-        setTimeRemaining(mockSession.timeRemaining);
-        
-        // Get random questions for new session
-        const randomQuestionsResponse = await testApi.getQuestionsForSession(sessionId!);
-        if (randomQuestionsResponse.success) {
+        // Fallback to mock questions if API fails
+        const mockQuestions: Question[] = [
+          {
+            id: 'q1',
+            sectionId: 's1',
+            text: 'What is the primary function of an operating system?',
+            type: 'single_choice',
+            complexity: 'easy',
+            options: [
+              { id: 'o1', text: 'To manage hardware and software resources', isCorrect: true },
+              { id: 'o2', text: 'To create documents', isCorrect: false },
+              { id: 'o3', text: 'To browse the internet', isCorrect: false },
+              { id: 'o4', text: 'To play games', isCorrect: false }
+            ],
+            correctAnswers: ['o1'],
+            explanation: 'An operating system manages all hardware and software resources of a computer.',
+            points: 1,
+            order: 1,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          {
+            id: 'q2',
+            sectionId: 's1',
+            text: 'Which of the following are input devices? (Select all that apply)',
+            type: 'multiple_choice',
+            complexity: 'medium',
+            options: [
+              { id: 'o5', text: 'Keyboard', isCorrect: true },
+              { id: 'o6', text: 'Mouse', isCorrect: true },
+              { id: 'o7', text: 'Monitor', isCorrect: false },
+              { id: 'o8', text: 'Microphone', isCorrect: true }
+            ],
+            correctAnswers: ['o5', 'o6', 'o8'],
+            explanation: 'Input devices allow users to provide data to the computer. Monitor is an output device.',
+            points: 2,
+            order: 2,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          {
+            id: 'q3',
+            sectionId: 's2',
+            text: 'What does CPU stand for?',
+            type: 'single_choice',
+            complexity: 'easy',
+            options: [
+              { id: 'o9', text: 'Central Processing Unit', isCorrect: true },
+              { id: 'o10', text: 'Computer Personal Unit', isCorrect: false },
+              { id: 'o11', text: 'Central Program Unit', isCorrect: false },
+              { id: 'o12', text: 'Computer Processing Unit', isCorrect: false }
+            ],
+            correctAnswers: ['o9'],
+            explanation: 'CPU stands for Central Processing Unit, which is the main processor of a computer.',
+            points: 1,
+            order: 3,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          {
+            id: 'q4',
+            sectionId: 's2',
+            text: 'Which programming languages are commonly used for web development?',
+            type: 'multiple_choice',
+            complexity: 'hard',
+            options: [
+              { id: 'o13', text: 'JavaScript', isCorrect: true },
+              { id: 'o14', text: 'Python', isCorrect: false },
+              { id: 'o15', text: 'HTML', isCorrect: true },
+              { id: 'o16', text: 'CSS', isCorrect: true }
+            ],
+            correctAnswers: ['o13', 'o15', 'o16'],
+            explanation: 'JavaScript, HTML, and CSS are core web technologies. Python is primarily server-side.',
+            points: 3,
+            order: 4,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          },
+          {
+            id: 'q5',
+            sectionId: 's3',
+            text: 'What is the purpose of RAM in a computer?',
+            type: 'single_choice',
+            complexity: 'medium',
+            options: [
+              { id: 'o17', text: 'Temporary storage for active programs', isCorrect: true },
+              { id: 'o18', text: 'Permanent storage for files', isCorrect: false },
+              { id: 'o19', text: 'Processing calculations', isCorrect: false },
+              { id: 'o20', text: 'Connecting to internet', isCorrect: false }
+            ],
+            correctAnswers: ['o17'],
+            explanation: 'RAM (Random Access Memory) provides temporary storage for programs currently being used.',
+            points: 2,
+            order: 5,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          }
+        ];
+        setQuestions(mockQuestions);
+          console.log('Loaded questions for new session:', randomQuestionsResponse.data);
           setQuestions(randomQuestionsResponse.data);
+        } else {
+          console.error('Failed to load questions:', randomQuestionsResponse);
         }
       }
     } catch (error) {
       console.error('Failed to load test session:', error);
-      navigate('/available-tests');
+      // Don't navigate away, show error but allow retry
+      alert('Failed to load test. Please try again.');
     } finally {
       setIsLoading(false);
     }

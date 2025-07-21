@@ -41,11 +41,17 @@ export function AvailableTests() {
   const handleStartTest = async (surveyId: string) => {
     try {
       setIsTestStarting(true);
-      const response = await testApi.startTest(surveyId);
-      if (response.success && response.data) {
-        // Navigate to test interface
-        navigate(`/test/${response.data.id}`);
-      }
+      
+      // Create a unique session ID
+      const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // Navigate directly to test interface with the session ID
+      navigate(`/test/${sessionId}`, { 
+        state: { 
+          surveyId: surveyId,
+          startTime: new Date().toISOString()
+        }
+      });
     } catch (error) {
       console.error('Failed to start test:', error);
       alert('Failed to start test. Please try again.');

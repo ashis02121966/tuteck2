@@ -22,6 +22,13 @@ export function Button({
   type = 'button',
   className
 }: ButtonProps) {
+  const handleClick = () => {
+    if (!disabled && !loading && onClick) {
+      console.log('Button clicked');
+      onClick();
+    }
+  };
+
   const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variantClasses = {
@@ -38,10 +45,17 @@ export function Button({
     lg: 'px-6 py-3 text-base'
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!disabled && !loading && onClick) {
+      onClick();
+    }
+  };
   return (
     <button
       type={type}
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled || loading}
       className={cn(
         baseClasses,
