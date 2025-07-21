@@ -96,7 +96,6 @@ export function Login() {
               disabled={isLoading}
               className="w-full"
               size="lg"
-              onClick={handleSubmit}
             >
               {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
