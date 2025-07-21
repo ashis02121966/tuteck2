@@ -155,6 +155,92 @@ const mockSurveys: Survey[] = [
     createdAt: new Date(),
     updatedAt: new Date(),
     createdBy: '1'
+  },
+  {
+    id: '3',
+    title: 'Travel',
+    description: 'Comprehensive survey on travel patterns and transportation usage',
+    targetDate: new Date('2024-12-15'),
+    duration: 40,
+    totalQuestions: 30,
+    passingScore: 70,
+    maxAttempts: 3,
+    isActive: true,
+    sections: [
+      {
+        id: 's6',
+        surveyId: '3',
+        title: 'Data Collection',
+        description: 'Methods and techniques for collecting travel data',
+        questionsCount: 10,
+        order: 1,
+        questions: []
+      },
+      {
+        id: 's7',
+        surveyId: '3',
+        title: 'Data Scrutiny',
+        description: 'Analysis and validation of travel data',
+        questionsCount: 10,
+        order: 2,
+        questions: []
+      },
+      {
+        id: 's8',
+        surveyId: '3',
+        title: 'Overall System Usage',
+        description: 'System utilization and operational procedures',
+        questionsCount: 10,
+        order: 3,
+        questions: []
+      }
+    ],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    createdBy: '1'
+  },
+  {
+    id: '4',
+    title: 'Tourism',
+    description: 'Assessment of tourism industry knowledge and data management',
+    targetDate: new Date('2024-12-20'),
+    duration: 45,
+    totalQuestions: 30,
+    passingScore: 75,
+    maxAttempts: 3,
+    isActive: true,
+    sections: [
+      {
+        id: 's9',
+        surveyId: '4',
+        title: 'Data Collection',
+        description: 'Tourism data collection methodologies',
+        questionsCount: 10,
+        order: 1,
+        questions: []
+      },
+      {
+        id: 's10',
+        surveyId: '4',
+        title: 'Data Scrutiny',
+        description: 'Tourism data analysis and verification',
+        questionsCount: 10,
+        order: 2,
+        questions: []
+      },
+      {
+        id: 's11',
+        surveyId: '4',
+        title: 'Overall System Usage',
+        description: 'Tourism system management and operations',
+        questionsCount: 10,
+        order: 3,
+        questions: []
+      }
+    ],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    createdBy: '1'
   }
 ];
 
@@ -194,6 +280,217 @@ const mockQuestions: Question[] = [
     explanation: 'Input devices allow users to provide data to the computer. Monitor is an output device.',
     points: 2,
     order: 2,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  // Travel Survey Questions
+  {
+    id: 'q_travel_1',
+    sectionId: 's6',
+    text: 'What is the most effective method for collecting travel pattern data?',
+    type: 'single_choice',
+    complexity: 'medium',
+    options: [
+      { id: 'o_travel_1', text: 'Household surveys', isCorrect: true },
+      { id: 'o_travel_2', text: 'Traffic counting only', isCorrect: false },
+      { id: 'o_travel_3', text: 'GPS tracking only', isCorrect: false },
+      { id: 'o_travel_4', text: 'Social media analysis', isCorrect: false }
+    ],
+    correctAnswers: ['o_travel_1'],
+    explanation: 'Household surveys provide comprehensive data on travel patterns, purposes, and demographics.',
+    points: 2,
+    order: 1,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_travel_2',
+    sectionId: 's6',
+    text: 'Which data collection tools are essential for travel surveys? (Select all that apply)',
+    type: 'multiple_choice',
+    complexity: 'easy',
+    options: [
+      { id: 'o_travel_5', text: 'Questionnaires', isCorrect: true },
+      { id: 'o_travel_6', text: 'GPS devices', isCorrect: true },
+      { id: 'o_travel_7', text: 'Video cameras', isCorrect: false },
+      { id: 'o_travel_8', text: 'Mobile apps', isCorrect: true }
+    ],
+    correctAnswers: ['o_travel_5', 'o_travel_6', 'o_travel_8'],
+    explanation: 'Questionnaires, GPS devices, and mobile apps are key tools for collecting accurate travel data.',
+    points: 2,
+    order: 2,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_travel_3',
+    sectionId: 's7',
+    text: 'What is the primary purpose of data scrutiny in travel surveys?',
+    type: 'single_choice',
+    complexity: 'medium',
+    options: [
+      { id: 'o_travel_9', text: 'To ensure data quality and accuracy', isCorrect: true },
+      { id: 'o_travel_10', text: 'To reduce data volume', isCorrect: false },
+      { id: 'o_travel_11', text: 'To speed up processing', isCorrect: false },
+      { id: 'o_travel_12', text: 'To eliminate respondents', isCorrect: false }
+    ],
+    correctAnswers: ['o_travel_9'],
+    explanation: 'Data scrutiny ensures the collected travel data is accurate, complete, and reliable for analysis.',
+    points: 2,
+    order: 3,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_travel_4',
+    sectionId: 's7',
+    text: 'Which validation checks should be performed on travel data? (Select all that apply)',
+    type: 'multiple_choice',
+    complexity: 'hard',
+    options: [
+      { id: 'o_travel_13', text: 'Distance consistency checks', isCorrect: true },
+      { id: 'o_travel_14', text: 'Time sequence validation', isCorrect: true },
+      { id: 'o_travel_15', text: 'Mode choice logic', isCorrect: true },
+      { id: 'o_travel_16', text: 'Respondent age only', isCorrect: false }
+    ],
+    correctAnswers: ['o_travel_13', 'o_travel_14', 'o_travel_15'],
+    explanation: 'Comprehensive validation includes distance, time, and mode choice consistency checks.',
+    points: 3,
+    order: 4,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_travel_5',
+    sectionId: 's8',
+    text: 'What is the key benefit of integrated travel survey systems?',
+    type: 'single_choice',
+    complexity: 'medium',
+    options: [
+      { id: 'o_travel_17', text: 'Streamlined data flow and reduced errors', isCorrect: true },
+      { id: 'o_travel_18', text: 'Lower cost only', isCorrect: false },
+      { id: 'o_travel_19', text: 'Faster data entry', isCorrect: false },
+      { id: 'o_travel_20', text: 'Smaller file sizes', isCorrect: false }
+    ],
+    correctAnswers: ['o_travel_17'],
+    explanation: 'Integrated systems provide seamless data flow, reduce manual errors, and improve overall efficiency.',
+    points: 2,
+    order: 5,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  // Tourism Survey Questions
+  {
+    id: 'q_tourism_1',
+    sectionId: 's9',
+    text: 'What is the most comprehensive method for collecting tourism data?',
+    type: 'single_choice',
+    complexity: 'medium',
+    options: [
+      { id: 'o_tourism_1', text: 'Visitor exit surveys', isCorrect: true },
+      { id: 'o_tourism_2', text: 'Hotel registration only', isCorrect: false },
+      { id: 'o_tourism_3', text: 'Airport counting', isCorrect: false },
+      { id: 'o_tourism_4', text: 'Online reviews analysis', isCorrect: false }
+    ],
+    correctAnswers: ['o_tourism_1'],
+    explanation: 'Visitor exit surveys capture comprehensive information about tourist experiences, spending, and satisfaction.',
+    points: 2,
+    order: 1,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_tourism_2',
+    sectionId: 's9',
+    text: 'Which data sources are essential for tourism statistics? (Select all that apply)',
+    type: 'multiple_choice',
+    complexity: 'easy',
+    options: [
+      { id: 'o_tourism_5', text: 'Accommodation establishments', isCorrect: true },
+      { id: 'o_tourism_6', text: 'Border control records', isCorrect: true },
+      { id: 'o_tourism_7', text: 'Weather reports', isCorrect: false },
+      { id: 'o_tourism_8', text: 'Tourist surveys', isCorrect: true }
+    ],
+    correctAnswers: ['o_tourism_5', 'o_tourism_6', 'o_tourism_8'],
+    explanation: 'Accommodation data, border records, and tourist surveys provide comprehensive tourism statistics.',
+    points: 2,
+    order: 2,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_tourism_3',
+    sectionId: 's10',
+    text: 'What is the primary goal of tourism data scrutiny?',
+    type: 'single_choice',
+    complexity: 'medium',
+    options: [
+      { id: 'o_tourism_9', text: 'To ensure data reliability for policy decisions', isCorrect: true },
+      { id: 'o_tourism_10', text: 'To reduce survey costs', isCorrect: false },
+      { id: 'o_tourism_11', text: 'To eliminate tourists', isCorrect: false },
+      { id: 'o_tourism_12', text: 'To speed up data entry', isCorrect: false }
+    ],
+    correctAnswers: ['o_tourism_9'],
+    explanation: 'Data scrutiny ensures tourism statistics are reliable and accurate for informed policy making.',
+    points: 2,
+    order: 3,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_tourism_4',
+    sectionId: 's10',
+    text: 'Which validation procedures are critical for tourism data? (Select all that apply)',
+    type: 'multiple_choice',
+    complexity: 'hard',
+    options: [
+      { id: 'o_tourism_13', text: 'Expenditure consistency checks', isCorrect: true },
+      { id: 'o_tourism_14', text: 'Duration of stay validation', isCorrect: true },
+      { id: 'o_tourism_15', text: 'Purpose of visit verification', isCorrect: true },
+      { id: 'o_tourism_16', text: 'Tourist nationality only', isCorrect: false }
+    ],
+    correctAnswers: ['o_tourism_13', 'o_tourism_14', 'o_tourism_15'],
+    explanation: 'Comprehensive validation includes expenditure, duration, and purpose consistency checks.',
+    points: 3,
+    order: 4,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_tourism_5',
+    sectionId: 's11',
+    text: 'What is the main advantage of automated tourism data systems?',
+    type: 'single_choice',
+    complexity: 'medium',
+    options: [
+      { id: 'o_tourism_17', text: 'Real-time data processing and reporting', isCorrect: true },
+      { id: 'o_tourism_18', text: 'Reduced hardware costs', isCorrect: false },
+      { id: 'o_tourism_19', text: 'Smaller databases', isCorrect: false },
+      { id: 'o_tourism_20', text: 'Less staff training', isCorrect: false }
+    ],
+    correctAnswers: ['o_tourism_17'],
+    explanation: 'Automated systems enable real-time processing, faster reporting, and improved data accuracy.',
+    points: 2,
+    order: 5,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'q_tourism_6',
+    sectionId: 's11',
+    text: 'Which system features are essential for tourism data management? (Select all that apply)',
+    type: 'multiple_choice',
+    complexity: 'medium',
+    options: [
+      { id: 'o_tourism_21', text: 'Data backup and recovery', isCorrect: true },
+      { id: 'o_tourism_22', text: 'User access controls', isCorrect: true },
+      { id: 'o_tourism_23', text: 'Automated reporting', isCorrect: true },
+      { id: 'o_tourism_24', text: 'Gaming features', isCorrect: false }
+    ],
+    correctAnswers: ['o_tourism_21', 'o_tourism_22', 'o_tourism_23'],
+    explanation: 'Essential features include data security, access controls, and automated reporting capabilities.',
+    points: 2,
+    order: 6,
     createdAt: new Date(),
     updatedAt: new Date()
   }
@@ -446,6 +743,13 @@ export const questionApi = {
     
     if (sectionId) {
       filteredQuestions = mockQuestions.filter(q => q.sectionId === sectionId);
+    } else if (surveyId) {
+      // Filter questions by survey through sections
+      const survey = mockSurveys.find(s => s.id === surveyId);
+      if (survey) {
+        const sectionIds = survey.sections.map(section => section.id);
+        filteredQuestions = mockQuestions.filter(q => sectionIds.includes(q.sectionId));
+      }
     }
     
     return {
@@ -908,6 +1212,30 @@ export const enumeratorDashboardApi = {
           attemptsLeft: 2,
           maxAttempts: 2,
           isEligible: true
+        },
+        {
+          surveyId: '3',
+          title: 'Travel',
+          description: 'Comprehensive survey on travel patterns and transportation usage',
+          targetDate: new Date('2024-12-15'),
+          duration: 40,
+          totalQuestions: 30,
+          passingScore: 70,
+          attemptsLeft: 3,
+          maxAttempts: 3,
+          isEligible: true
+        },
+        {
+          surveyId: '4',
+          title: 'Tourism',
+          description: 'Assessment of tourism industry knowledge and data management',
+          targetDate: new Date('2024-12-20'),
+          duration: 45,
+          totalQuestions: 30,
+          passingScore: 75,
+          attemptsLeft: 3,
+          maxAttempts: 3,
+          isEligible: true
         }
       ],
       completedTests: [
@@ -927,6 +1255,20 @@ export const enumeratorDashboardApi = {
           title: 'Digital Literacy Assessment 2024',
           targetDate: new Date('2024-12-31'),
           daysLeft: 45,
+          isOverdue: false
+        },
+        {
+          surveyId: '3',
+          title: 'Travel',
+          targetDate: new Date('2024-12-15'),
+          daysLeft: 30,
+          isOverdue: false
+        },
+        {
+          surveyId: '4',
+          title: 'Tourism',
+          targetDate: new Date('2024-12-20'),
+          daysLeft: 35,
           isOverdue: false
         }
       ],
