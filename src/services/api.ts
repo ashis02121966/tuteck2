@@ -514,9 +514,11 @@ export const questionApi = {
     
     // Create CSV template content
     const csvContent = `Question Text,Question Type,Complexity,Option A,Option B,Option C,Option D,Correct Answer,Points,Explanation
-"What is the capital of France?",single_choice,easy,"Paris","London","Berlin","Madrid",A,1,"Paris is the capital and largest city of France"
-"Which of the following are programming languages?",multiple_choice,medium,"Python","HTML","JavaScript","CSS","A,C",2,"Python and JavaScript are programming languages, while HTML and CSS are markup and styling languages"
-"What does CPU stand for?",single_choice,easy,"Central Processing Unit","Computer Personal Unit","Central Program Unit","Computer Processing Unit",A,1,"CPU stands for Central Processing Unit"`;
+"What is the primary function of an operating system?",single_choice,easy,"To manage hardware and software resources","To create documents","To browse the internet","To play games",A,1,"An operating system manages all hardware and software resources of a computer"
+"Which of the following are input devices? (Select all that apply)",multiple_choice,medium,"Keyboard","Mouse","Monitor","Microphone","A,B,D",2,"Input devices allow users to provide data to the computer. Monitor is an output device"
+"What does CPU stand for?",single_choice,easy,"Central Processing Unit","Computer Personal Unit","Central Program Unit","Computer Processing Unit",A,1,"CPU stands for Central Processing Unit"
+"Which programming languages are commonly used for web development?",multiple_choice,hard,"JavaScript","Python","HTML","CSS","A,C,D",3,"JavaScript, HTML, and CSS are core web technologies. Python is primarily server-side"
+"What is the purpose of RAM in a computer?",single_choice,medium,"Temporary storage for active programs","Permanent storage for files","Processing calculations","Connecting to internet",A,2,"RAM (Random Access Memory) provides temporary storage for programs currently being used"`;
 
     return new Blob([csvContent], { type: 'text/csv' });
   }
