@@ -39,12 +39,14 @@ export function Button({
   };
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
+    if (type !== 'submit') {
+      e.preventDefault();
+    }
     if (!disabled && !loading && onClick) {
       onClick();
     }
   };
+
   return (
     <button
       type={type}

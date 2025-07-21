@@ -93,11 +93,12 @@ export function Login() {
 
             <Button
               type="submit"
-              loading={isLoading}
+              disabled={isLoading}
               className="w-full"
               size="lg"
+              onClick={handleSubmit}
             >
-              Sign In
+              {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
 
